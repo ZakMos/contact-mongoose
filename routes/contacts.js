@@ -10,10 +10,10 @@ router.post('/', async (req, res, next) => {
     const contact = await contactService.creat(req.body);
     res.json(contact);
   }catch(err){
-    if(err.name === 'ValidationError'){
+    if(err.name === 'ValidationEroor'){
       next(Boom.badRequest(err));
     }
-      next(Boom.badImplemation(err));
+      next(Boom.badImplementation(err));
   }
 });
 
@@ -40,7 +40,7 @@ router.put('/:id', async(req, res, next)=> {
     const updated = await contactService.update(id);
     res.json(updated);
   } catch(err){
-    if(err.name === 'ValidatationError'){
+    if(err.name === 'ValidationEroor'){
       next(Boom.badRequest(err));
     } else{
       next(Boom.notFound(`No such contact with id: ${id}`));
