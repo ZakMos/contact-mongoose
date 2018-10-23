@@ -10,7 +10,7 @@ const ContactSchema = new Schema({
     required: true
   },
   phone_number: [String],
-  email: [String]
+  email: [String],
   birth_date: Date,
   address: {
     type: Schema.Types.ObjectId,

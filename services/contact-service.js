@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/contact-mongoose', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/contact-mongoose', { useNewUrlParser: true });
 
 const db = mongoose.connection;
 const contact = require('../models/contact');
@@ -7,7 +7,7 @@ const contact = require('../models/contact');
 
 db.on('error', console.error);
 
-class ContactServise {
+class ContactService {
   static async create(data){
     const newContact = new Contact(data);
 
@@ -58,4 +58,4 @@ class ContactServise {
   }
 }
 
-module.exports = ContactServise;
+module.exports = ContactService;

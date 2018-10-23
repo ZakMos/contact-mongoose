@@ -1,6 +1,6 @@
 const express = require('express');
 const Boom = require('boom');
-const AddressesService = require('../services/contact-service');
+const AddressesService = require('../services/address-service');
 
 const router = express.Router();
 

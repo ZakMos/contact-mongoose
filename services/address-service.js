@@ -1,7 +1,7 @@
-const mongoose = require('mogoose');
-mongoose.connect('mongodb://localhost/contact-mongoose', {usNewUrlParser: true});
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/contact-mongoose', { useNewUrlParser: true });
 
-const db = mongoose.connetion;
+const db = mongoose.connection;
 const address = require('../models/address');
 
 db.on('error', console.error);

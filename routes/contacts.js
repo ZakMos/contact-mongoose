@@ -1,61 +1,70 @@
 const express = require('express');
 const Boom = require('boom');
+const contactService = require('../services/contact-service');
 
-const contactService = require('../services/contact-services');
 const router = express.Router();
 
 
 router.post('/', async (req, res, next) => {
-  try{
-    const contact = await contactService.creat(req.body);
+  try {
+    const contact = await ContactService.create(req.body);
     res.json(contact);
-  }catch(err){
+  } catch(err){
     if(err.name === 'ValidationEroor'){
       next(Boom.badRequest(err));
     }
+
       next(Boom.badImplementation(err));
   }
+
 });
+
 
 router.get('/', async(req, res) => {
-  const contact = await contactService.retrive();
-  res.json(contact);
+  const {contactid} = req.query;
+
+  const contacts = await ContactService.retrive({contactid});
+
+  res.json(contacts);
 });
 
-router.get('/:id'), async(req, res, next) => {
+
+router.get('/:id', async (req, res, next )=> {
   const {id} = req.params;
-  try{
-    const contact = await contactService.retrive(id);
+  try {
+    const contact = await ContactService.retrieve({id});
     res.json(contact);
-  } catch(err){
+  } catch(err) {
     next(Boom.notFound(`No such contact with id: ${id}`));
   }
 });
 
 
-
-router.put('/:id', async(req, res, next)=> {
+router.put('/:id', async (req, res, next) => {
   const {id} = req.params;
-  try{
-    const updated = await contactService.update(id);
+
+  try {
+    const updated = await ContactService.update(id, req.body);
     res.json(updated);
   } catch(err){
     if(err.name === 'ValidationEroor'){
       next(Boom.badRequest(err));
-    } else{
+    } else {
       next(Boom.notFound(`No such contact with id: ${id}`));
     }
   }
 });
 
+
 router.delete('/:id', async(req, res, next)=> {
   const {id} = req.params;
-  try{
-    const deleted = await contactService.delete(id);
+  try {
+    const deleted = await ContactService.delete(id);
     res.json(deleted);
-  }catch(err){
+  } catch(err) {
     next(Boom.notFound(`No such contact with id ${id}`));
   }
+
 });
 
 module.exports = router;
