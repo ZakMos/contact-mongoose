@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/contact-mongoose', { useNewUrlParser: true });
 
 const db = mongoose.connection;
-const contact = require('../models/contact');
+const Contact = require('../models/contact');
 
 
 db.on('error', console.error);

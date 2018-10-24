@@ -1,14 +1,15 @@
-const express = require('express');
-const Boom = require('boom');
-const AddressesService = require('../services/address-service');
+const express           = require('express');
+const Boom              = require('boom');
+const AddressService    = require('../services/address-service');
+const router            = express.Router();
 
-const router = express.Router();
-
-router.post('/', async (req, res, next)=> {
-  try{
-    const address = await AddressesService.create(req.body);
+router.post('/', async (req, res, next) => {
+  console.log(req.body);
+  try {
+    const address = await AddressService.create(req.body);
     res.json(address);
-  }catch(err){
+    console.log(address);
+  } catch(err) {
     if(err.name === 'ValidationEroor'){
       next(Boom.badRequest(err));
     }
@@ -18,31 +19,31 @@ router.post('/', async (req, res, next)=> {
 
 // List all addresses
 router.get('/', async (req, res)=> {
-  const contacts = await AddressesService.retrive();
-  res.json(contacts)
+  const addresses = await AddressService.retrieve();
+  res.json(addresses)
 });
 
 // Get a single address by id
 router.get('/:id', async (req, res, next)=> {
   const {id} = req.params;
-try{
-  const address = await AddressesService.retrive(id);
+  try {
+  const address = await AddressService.retrieve(id);
   res.json(address);
-}catch(err){
+  } catch(err) {
   next(Boom.notFound(`No such address with id ${id}`));
   }
 });
 
 //update an address
-router.put('/:id', async (req, res, next)=> {
+router.put('/:id', async (req, res, next) => {
   const {id} = req.params;
-  try{
-    const updated = await AddressesService.update(id, rq.body);
+  try {
+    const updated = await AddressService.update(id, req.body);
     res.json(updated);
-  }catch(err){
+    } catch(err) {
     if(err.name === 'ValidationEroor'){
       next(Boom.badRequest(err));
-    } else{
+    } else {
       next(Boom.notFound(`No such address with id: ${id}`));
     }
   }
@@ -52,9 +53,9 @@ router.put('/:id', async (req, res, next)=> {
 // Delete an addresses
 router.delete('/:id', async (req, res, next)=> {
   const {id} = req.params;
-  try{
-    const deleted = await AddressesService.delete(id);
-  }catch(err){
+  try {
+    const deleted = await AddressService.delete(id);
+  } catch(err) {
     next(Boom.notFound(`No such address with id: ${id}`))
   }
 });

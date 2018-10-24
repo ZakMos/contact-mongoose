@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose    = require('mongoose');
 const idValidator = require('mongoose-id-validator');
-const {Schema} = mongoose;
+const {Schema}    = mongoose;
 
-const NameSchema = require('./name-schema.js');
+const NameSchema  = require('./name-schema.js');
 
 const ContactSchema = new Schema({
   name: {
@@ -14,8 +14,8 @@ const ContactSchema = new Schema({
   birth_date: Date,
   address: {
     type: Schema.Types.ObjectId,
-    ref: 'addres',
-    required: true
+    ref: 'Address'
+    // required: true
   }
 });
 

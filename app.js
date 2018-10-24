@@ -1,17 +1,13 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const  Boom = require ('boom');
+var express           = require('express');
+var path              = require('path');
+var cookieParser      = require('cookie-parser');
+var logger            = require('morgan');
+const Boom            = require('boom');
 
-var addressRouter = require('./routes/addresses');
-var contactRouter = require('./routes/contacts');
+const addressRouter   = require('./routes/addresses');
+const contactsRouter  = require('./routes/contacts');
 
 var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -19,15 +15,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/api/v1/address', addressRouter);
-app.use('/api/v1/contact', contactRouter);
+app.use('/api/v1/contact', contactsRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(Boom.notFound(`Sorry, cannot find: ${req.path}`));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   let status, message;
   if(err.output){
     status = err.output.statusCode;
@@ -35,13 +31,13 @@ app.use(function(err, req, res, next) {
   } else {
     status = err.status || 500;
     message = {
-      message: err.message || 'Oops, somthing bad happend'
+      message: err.message || 'Oops, something bad happened'
     };
   }
-  res
-  .status(staus)
-  .json(message);
 
+  res
+    .status(status)
+    .json(message);
 });
 
 module.exports = app;

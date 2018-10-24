@@ -1,11 +1,11 @@
 {
-  "name": "students-mongoose",
+  "name": "contact-mongoose",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "debug": "DEBUG=students-mongoose:* node --inspect ./bin/www",
-    "watch": "DEBUG=students-mongoose:* nodemon --inspect ./bin/www --ignore /data"
+    "debug": "DEBUG=contact-mongoose:* node --inspect ./bin/www",
+    "watch": "DEBUG=contact-mongoose:* nodemon --inspect ./bin/www --ignore /data"
   },
   "dependencies": {
     "boom": "^7.2.0",

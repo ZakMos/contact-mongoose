@@ -1,13 +1,14 @@
-const express = require('express');
-const Boom = require('boom');
-const contactService = require('../services/contact-service');
-
-const router = express.Router();
+const express         = require('express');
+const Boom            = require('boom');
+const ContactService  = require('../services/contact-service');
+const router          = express.Router();
 
 
 router.post('/', async (req, res, next) => {
+console.log(req.body);
   try {
     const contact = await ContactService.create(req.body);
+
     res.json(contact);
   } catch(err){
     if(err.name === 'ValidationEroor'){
@@ -23,7 +24,7 @@ router.post('/', async (req, res, next) => {
 router.get('/', async(req, res) => {
   const {contactid} = req.query;
 
-  const contacts = await ContactService.retrive({contactid});
+  const contacts = await ContactService.retrieve({contactid});
 
   res.json(contacts);
 });
@@ -56,7 +57,7 @@ router.put('/:id', async (req, res, next) => {
 });
 
 
-router.delete('/:id', async(req, res, next)=> {
+router.delete('/:id', async(req, res, next) => {
   const {id} = req.params;
   try {
     const deleted = await ContactService.delete(id);
