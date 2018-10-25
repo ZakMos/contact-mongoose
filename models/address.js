@@ -1,6 +1,5 @@
 const mongoose      = require('mongoose');
-const NameSchema    = require('./name-schema');
-const {Schema}      = mongoose;
+
 const AddressSchema = new mongoose.Schema({
 
   street: String,
@@ -9,11 +8,11 @@ const AddressSchema = new mongoose.Schema({
   state: String,
   country: String,
   zip: Number,
-  contact: {
-    type: Schema.Types.ObjectId,
-    ref: 'Contact',
-    // required: true
-  }
+  // contact: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Contact',
+  //   // required: true
+  // }
 
 });
 AddressSchema.virtual('contacts', {
@@ -21,4 +20,7 @@ AddressSchema.virtual('contacts', {
   localField: '_id',
   foreignField: 'address'
 });
+
+
+
 module.exports = mongoose.model('Address', AddressSchema);

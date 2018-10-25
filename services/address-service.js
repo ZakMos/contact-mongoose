@@ -9,13 +9,13 @@ db.on('error', console.error);
 class AddressService {
   static async create(data){
     const address = new Address(data);
-    return await Address.save();
+    return await address.save();
   }
 
   static async retrieve(id){
     let data;
 
-    if(id) {
+    if (id) {
       data = await Address.findById(id)
       .populate('contacts')
       .exec();
@@ -33,10 +33,10 @@ class AddressService {
       new: true,
       runValidators: true
     });
-    if(!contact){
+    if(!address){
       throw new Error('Cannot update data');
     }
-    return Address;
+    return address;
   }
   static async delete(id){
     const deleted = await Address.findByIdAndDelete(id);

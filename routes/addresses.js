@@ -1,34 +1,35 @@
-const express           = require('express');
-const Boom              = require('boom');
-const AddressService    = require('../services/address-service');
-const router            = express.Router();
+const express         = require('express');
+const Boom            = require('boom');
+const AddressService  = require('../services/address-service');
+const router          = express.Router();
 
+// Add a new address to the db
 router.post('/', async (req, res, next) => {
-  console.log(req.body);
+    console.log(req.body);
   try {
     const address = await AddressService.create(req.body);
+
     res.json(address);
-    console.log(address);
   } catch(err) {
-    if(err.name === 'ValidationEroor'){
+    if(err.name === 'ValidationError'){
       next(Boom.badRequest(err));
     }
     next(Boom.badImplementation(err));
   }
-});
+  });
 
 // List all addresses
-router.get('/', async (req, res)=> {
+router.get('/', async (req, res) => {
   const addresses = await AddressService.retrieve();
   res.json(addresses)
 });
 
 // Get a single address by id
-router.get('/:id', async (req, res, next)=> {
+router.get('/:id', async (req, res, next) => {
   const {id} = req.params;
   try {
-  const address = await AddressService.retrieve(id);
-  res.json(address);
+    const address = await AddressService.retrieve(id);
+    res.json(address);
   } catch(err) {
   next(Boom.notFound(`No such address with id ${id}`));
   }

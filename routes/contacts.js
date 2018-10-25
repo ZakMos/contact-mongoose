@@ -3,34 +3,30 @@ const Boom            = require('boom');
 const ContactService  = require('../services/contact-service');
 const router          = express.Router();
 
-
+// Add a new contact to the db
 router.post('/', async (req, res, next) => {
-console.log(req.body);
   try {
     const contact = await ContactService.create(req.body);
-
     res.json(contact);
-  } catch(err){
-    if(err.name === 'ValidationEroor'){
+    } catch(err) {
+    if(err.name === 'ValidationError'){
       next(Boom.badRequest(err));
     }
-
-      next(Boom.badImplementation(err));
+    next(Boom.badImplementation(err));
   }
-
 });
 
-
-router.get('/', async(req, res) => {
-  const {contactid} = req.query;
-
-  const contacts = await ContactService.retrieve({contactid});
+// List all contacts
+router.get('/', async (req, res) => {
+  const {addressid} = req.query;
+// If the address id was passed as a query param it will filter contacts for that address
+  const contacts = await ContactService.retrieve({addressid});
 
   res.json(contacts);
 });
 
-
-router.get('/:id', async (req, res, next )=> {
+// Get a single contact by id
+router.get('/:id', async (req, res, next) => {
   const {id} = req.params;
   try {
     const contact = await ContactService.retrieve({id});
@@ -40,23 +36,23 @@ router.get('/:id', async (req, res, next )=> {
   }
 });
 
-
+// Update a contact
 router.put('/:id', async (req, res, next) => {
   const {id} = req.params;
 
   try {
     const updated = await ContactService.update(id, req.body);
     res.json(updated);
-  } catch(err){
-    if(err.name === 'ValidationEroor'){
+  } catch (err) {
+    if(err.name === 'ValidationError'){
       next(Boom.badRequest(err));
     } else {
-      next(Boom.notFound(`No such contact with id: ${id}`));
+      next(Boom.notFound(`No such player with id: ${id}`));
     }
   }
 });
 
-
+// Delete a contact
 router.delete('/:id', async(req, res, next) => {
   const {id} = req.params;
   try {
